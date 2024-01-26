@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 
 const API_BASE_URL = "/api/v1";
 
-interface Player {
+export interface Player {
   id: number;
   name: string;
   level: "rookie" | "amateur" | "pro";

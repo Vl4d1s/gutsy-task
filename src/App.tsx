@@ -1,4 +1,5 @@
 import "./App.css";
+import TournamentTable from "./components/tournament-table";
 import useTournamentData from "./hooks/useTournamentData";
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
 
   return (
     <div>
-      <h1>Tournament Data</h1>
+      <TournamentTable players={players} />
     </div>
   );
 }
