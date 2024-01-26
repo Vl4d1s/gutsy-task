@@ -19,10 +19,6 @@ export default function TournamentTable({
   players,
   suspects,
 }: TournamentTableProps) {
-  const getRowStyle = (playerId: number) => {
-    return suspects.has(playerId) ? { backgroundColor: red[50] } : {};
-  };
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="tournament-table">
@@ -41,7 +37,7 @@ export default function TournamentTable({
         </TableHead>
         <TableBody>
           {players.map((player) => (
-            <TableRow key={player.id} style={getRowStyle(player.id)}>
+            <TableRow key={player.id}>
               {columns.map((column) => (
                 <TableCell key={column.id}>
                   {column.transform
