@@ -1,21 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { TournamentData } from "../types";
 
 const API_BASE_URL = "/api/v1";
-
-export interface Player {
-  id: number;
-  name: string;
-  level: "rookie" | "amateur" | "pro";
-  score: number;
-}
-
-interface TournamentData {
-  players: Player[];
-  suspects: Set<number>;
-  loading: boolean;
-  error: string | null;
-  total: number;
-}
 
 const useTournamentData = (
   start: number,

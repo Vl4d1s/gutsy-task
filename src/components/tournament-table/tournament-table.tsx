@@ -6,41 +6,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-import { Player } from "../hooks/useTournamentData";
+import { red } from "@mui/material/colors";
+import { Player } from "../../types";
+import { columns } from "../tournament-table/column-config";
 
 interface TournamentTableProps {
   players: Player[];
+  suspects: Set<number>;
 }
 
-interface Column {
-  id: keyof Player;
-  label: string;
-  minWidth?: number;
-  align?: "right";
-  transform?: (value: any) => any;
-}
-
-export default function TournamentTable({ players }: TournamentTableProps) {
-  const columns: Column[] = [
-    {
-      id: "id",
-      label: "ID",
-    },
-    {
-      id: "name",
-      label: "Name",
-      transform: (value: string) =>
-        value.charAt(0).toUpperCase() + value.slice(1),
-    },
-    {
-      id: "level",
-      label: "Level",
-    },
-    {
-      id: "score",
-      label: "Score",
-    },
-  ];
+export default function TournamentTable({
+  players,
+  suspects,
+}: TournamentTableProps) {
+  const getRowStyle = (playerId: number) => {
+    return suspects.has(playerId) ? { backgroundColor: red[50] } : {};
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -60,7 +41,7 @@ export default function TournamentTable({ players }: TournamentTableProps) {
         </TableHead>
         <TableBody>
           {players.map((player) => (
-            <TableRow key={player.id}>
+            <TableRow key={player.id} style={getRowStyle(player.id)}>
               {columns.map((column) => (
                 <TableCell key={column.id}>
                   {column.transform
