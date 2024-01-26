@@ -20,4 +20,8 @@ export const columns: Column[] = [
     id: "score",
     label: "Score",
   },
+  {
+    id: "status",
+    label: "Status",
+  },
 ];

@@ -5,6 +5,8 @@ export interface Player {
   score: number;
 }
 
+type Extras = "status";
+
 export interface TournamentData {
   players: Player[];
   suspects: Set<number>;
@@ -14,7 +16,7 @@ export interface TournamentData {
 }
 
 export interface Column {
-  id: keyof Player;
+  id: keyof Player | Extras;
   label: string;
   minWidth?: number;
   align?: "right";
