@@ -9,6 +9,7 @@ export interface TournamentData {
   loading: boolean;
   error: string | null;
   total: number;
+  handleLavelFilterChange: (level: string) => void;
 }
 
 const useTournamentData = (
@@ -22,6 +23,11 @@ const useTournamentData = (
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState<number>(0);
+  const [levelFilter, setLevelFilter] = useState<string>(level || "");
+
+  const handleLavelFilterChange = (level: string) => {
+    setLevelFilter(level);
+  };
 
   // Ref to track the initial fetch for suspects
   const initialFetchCompleted = useRef<boolean>(false);
@@ -74,7 +80,7 @@ const useTournamentData = (
     fetchPlayers().catch((err) => setError((err as Error).message));
   }, [start, n, level, search]);
 
-  return { players, suspects, loading, error, total };
+  return { players, suspects, loading, error, total, handleLavelFilterChange };
 };
 
 export default useTournamentData;
