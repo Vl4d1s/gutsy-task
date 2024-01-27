@@ -1,13 +1,13 @@
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface LevelFilterProps {
-  handleFilterSelect: (event: SelectChangeEvent) => void;
+  onChange: (event: SelectChangeEvent) => void;
 }
 
-const LevelFilter = ({ handleFilterSelect }: LevelFilterProps) => (
+const LevelFilter = ({ onChange }: LevelFilterProps) => (
   <Select
     label="Filter by Level"
-    onChange={handleFilterSelect}
+    onChange={onChange}
     defaultValue=""
     size="small"
   >

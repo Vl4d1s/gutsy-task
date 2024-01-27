@@ -38,7 +38,11 @@ function App() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
             <Box m={2} />
-            <TournamentTable players={players} suspects={suspects} />
+            <TournamentTable
+              players={players}
+              suspects={suspects}
+              handleFilterSelect={(e) => setLevelFilter(e.target.value)}
+            />
           </Grid>
         </Grid>
       </Box>
