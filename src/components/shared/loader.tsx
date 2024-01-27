@@ -1,6 +1,6 @@
 import { CircularProgress, Container } from "@mui/material";
 
-function Loader() {
+const Loader = () => {
   return (
     <Container
       style={{
@@ -13,6 +13,6 @@ function Loader() {
       <CircularProgress size={80} thickness={4} color="primary" />
     </Container>
   );
-}
+};
 
 export default Loader;

@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import debounce from "lodash.debounce";
+import { useState, useEffect, useCallback, useRef } from "react";
+
 import { Player } from "../types";
 
 const API_BASE_URL = "/api/v1";

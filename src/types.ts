@@ -6,6 +6,8 @@ export interface Player {
   status: string;
 }
 
+export type LevelFilterValue = Player["level"] | "all" | "";
+
 export interface TournamentData {
   players: Player[];
   suspects: Set<number>;

@@ -7,13 +7,12 @@ import Search from "./components/tournament-table/search";
 import Loader from "./components/shared/loader";
 import Pagination from "./components/tournament-table/pagination";
 import ErrorComponent from "./components/shared/error-message";
+import { LevelFilterValue } from "./types";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [levelFilter, setLevelFilter] = useState("");
-
-  console.log("App");
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [levelFilter, setLevelFilter] = useState<LevelFilterValue>("");
 
   const { players, error, isLoading, totalPlayers, totalPages } =
     useFetchPlayers(currentPage, levelFilter, searchTerm);
@@ -41,7 +40,9 @@ function App() {
             <Box m={2} />
             <TournamentTable
               players={players}
-              handleFilterSelect={(e) => setLevelFilter(e.target.value)}
+              handleFilterSelect={(e) =>
+                setLevelFilter(e.target.value as LevelFilterValue)
+              }
               levelFilter={levelFilter}
             />
             <Box m={2} />

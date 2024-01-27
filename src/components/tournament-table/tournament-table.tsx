@@ -7,7 +7,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { SelectChangeEvent } from "@mui/material";
 
-import { Column, Player } from "../../types";
+import { Column, LevelFilterValue, Player } from "../../types";
 import { columns } from "../tournament-table/column-config";
 import LevelFilter from "./level-filter";
 
@@ -31,7 +31,7 @@ function renderRow(player: Player) {
 
 interface TournamentTableProps {
   players: Player[];
-  levelFilter: string;
+  levelFilter: LevelFilterValue;
   handleFilterSelect: (event: SelectChangeEvent) => void;
 }
 

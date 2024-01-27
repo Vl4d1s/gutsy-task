@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 
@@ -8,11 +7,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   totalPages,
   currentPage,
   onPageChange,
-}) => {
+}: PaginationProps) => {
   const range = 2;
   let start = Math.max(currentPage - range, 1);
   let end = Math.min(currentPage + range, totalPages);
