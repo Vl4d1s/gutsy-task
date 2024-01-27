@@ -2,10 +2,20 @@ import { Container, Typography, Box, Grid } from "@mui/material";
 // import "./App.css";
 import TournamentTable from "./components/tournament-table/tournament-table";
 import useTournamentData from "./hooks/useTournamentData";
+import { useState } from "react";
 
 function App() {
-  const { players, suspects, loading, error, total, handleLavelFilterChange } =
-    useTournamentData(0, 100);
+  const [levelFilter, setLevelFilter] = useState<string>("");
+
+  const handleFilterChange = (level: string) => {
+    setLevelFilter(level);
+  };
+
+  const { players, suspects, loading, error, total } = useTournamentData(
+    0,
+    100,
+    levelFilter
+  );
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -23,7 +33,7 @@ function App() {
             <TournamentTable
               players={players}
               suspects={suspects}
-              onFilterChange={handleLavelFilterChange}
+              onFilterChange={handleFilterChange}
             />
           </Grid>
         </Grid>
