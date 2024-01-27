@@ -1,7 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { TournamentData } from "../types";
+import { Player } from "../types";
 
 const API_BASE_URL = "/api/v1";
+
+export interface TournamentData {
+  players: Player[];
+  suspects: Set<number>;
+  loading: boolean;
+  error: string | null;
+  total: number;
+}
 
 const useTournamentData = (
   start: number,
@@ -9,76 +17,64 @@ const useTournamentData = (
   level?: string,
   search?: string
 ): TournamentData => {
-  const [state, setState] = useState<TournamentData>({
-    players: [],
-    suspects: new Set(),
-    loading: true,
-    error: null,
-    total: 0,
-  });
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [suspects, setSuspects] = useState<Set<number>>(new Set());
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [total, setTotal] = useState<number>(0);
 
-  const suspectsFetched = useRef<boolean>(false);
+  // Ref to track the initial fetch for suspects
+  const initialFetchCompleted = useRef<boolean>(false);
 
   const fetchPlayers = async () => {
-    const queryParams = new URLSearchParams({
-      start: start.toString(),
-      n: n.toString(),
-      ...(level && { level }),
-      ...(search && { search }),
-    }).toString();
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams({
+        start: start.toString(),
+        n: n.toString(),
+        ...(level && { level }),
+        ...(search && { search }),
+      }).toString();
 
-    const response = await fetch(`${API_BASE_URL}/players?${queryParams}`, {});
+      const response = await fetch(`${API_BASE_URL}/players?${queryParams}`);
+      if (!response.ok) throw new Error("Network response was not ok.");
 
-    if (!response.ok) throw new Error("Network response was not ok.");
+      const data = await response.json();
+      const totalNumber = parseInt(response.headers.get("x-total") || "0");
 
-    const data = await response.json();
-    const total = parseInt(response.headers.get("x-total") || "0");
-
-    setState((prevState) => ({
-      ...prevState,
-      players: data,
-      total,
-      loading: false,
-    }));
+      setPlayers(data);
+      setTotal(totalNumber);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const fetchSuspects = async () => {
-    const response = await fetch(`${API_BASE_URL}/players/suspects`, {});
+    try {
+      const response = await fetch(`${API_BASE_URL}/players/suspects`);
+      if (!response.ok) throw new Error("Network response was not ok.");
 
-    if (!response.ok) throw new Error("Network response was not ok.");
-
-    const data = await response.json();
-
-    setState((prevState) => ({
-      ...prevState,
-      suspects: new Set(data),
-    }));
-
-    suspectsFetched.current = true;
+      const data = await response.json();
+      setSuspects(new Set(data));
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   useEffect(() => {
-    fetchPlayers().catch((err) =>
-      setState((prevState) => ({
-        ...prevState,
-        error: (err as Error).message,
-        loading: false,
-      }))
-    );
-  }, [start, n, level, search]);
-
-  useEffect(() => {
-    if (!suspectsFetched.current) {
-      fetchSuspects().catch((err) =>
-        setState((prevState) => ({
-          ...prevState,
-          error: (err as Error).message,
-        }))
-      );
+    if (!initialFetchCompleted.current) {
+      fetchSuspects().catch((err) => setError((err as Error).message));
+      initialFetchCompleted.current = true;
     }
   }, []);
 
-  return state;
+  useEffect(() => {
+    fetchPlayers().catch((err) => setError((err as Error).message));
+  }, [start, n, level, search]);
+
+  return { players, suspects, loading, error, total };
 };
 
 export default useTournamentData;

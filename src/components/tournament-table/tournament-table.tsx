@@ -8,10 +8,12 @@ import Paper from "@mui/material/Paper";
 
 import { Column, Player } from "../../types";
 import { columns } from "../tournament-table/column-config";
+import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 interface TournamentTableProps {
   players: Player[];
   suspects: Set<number>;
+  onFilterChange: (level: string) => void;
 }
 
 function renderCellContent(
@@ -43,15 +45,36 @@ function renderRow(player: Player, suspects: Set<number>) {
 export default function TournamentTable({
   players,
   suspects,
+  onFilterChange,
 }: TournamentTableProps) {
+  const handleFilterSelect = (event: SelectChangeEvent) => {
+    onFilterChange(event.target.value as string);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="tournament-table" size="small">
         <TableHead>
           <TableRow>
-            {columns.map(({ id, align, minWidth, label }) => (
-              <TableCell key={id} align={align} style={{ minWidth }}>
-                {label}
+            {columns.map((column) => (
+              <TableCell
+                key={column.id}
+                align={column.align}
+                style={{ minWidth: column.minWidth }}
+              >
+                {column.label}
+                {column.id === "level" && (
+                  <Select
+                    label="Filter by Level"
+                    onChange={handleFilterSelect}
+                    defaultValue=""
+                    size="small"
+                  >
+                    <MenuItem value="">All Levels</MenuItem>
+                    <MenuItem value="rookie">Rookie</MenuItem>
+                    <MenuItem value="amateur">Amateur</MenuItem>
+                    <MenuItem value="pro">Pro</MenuItem>
+                  </Select>
+                )}
               </TableCell>
             ))}
           </TableRow>
