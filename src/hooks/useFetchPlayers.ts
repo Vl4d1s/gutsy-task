@@ -1,13 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import debounce from "lodash.debounce";
-
-export interface Player {
-  id: number;
-  name: string;
-  level: "rookie" | "amateur" | "pro";
-  score: number;
-}
+import { Player } from "../types";
 
 const API_BASE_URL = "/api/v1";
 
@@ -42,7 +36,7 @@ const useFetchPlayers = (
       const fetchedPlayers: Player[] = response.data.map((player: Player) => ({
         ...player,
         name: player.name.toUpperCase(),
-        isSuspect: suspects.has(player.id),
+        status: suspects.has(player.id) ? "suspect" : "ok",
       }));
 
       setPlayers(fetchedPlayers);

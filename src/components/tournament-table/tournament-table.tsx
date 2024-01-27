@@ -12,10 +12,6 @@ import { columns } from "../tournament-table/column-config";
 import LevelFilter from "../level-filter";
 
 function renderCellContent(column: Column, player: Player) {
-  if (column.id === "status") {
-    return player.isSuspect ? "Suspect" : "OK";
-  }
-
   return column.transform
     ? column.transform(player[column.id as keyof Player])
     : player[column.id as keyof Player];
