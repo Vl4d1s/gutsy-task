@@ -29,7 +29,10 @@ function App() {
               XT tournament - Final results
             </Typography>
             <Typography variant="h5" component="h5" gutterBottom align="center">
-              Total Players: {totalPlayers}
+              Total Players: {totalPlayers} | Page{" "}
+              <strong>
+                {currentPage} of {totalPages}
+              </strong>{" "}
             </Typography>
           </Grid>
           <Grid item xs={12}>
