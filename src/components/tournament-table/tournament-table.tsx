@@ -8,13 +8,10 @@ import Paper from "@mui/material/Paper";
 
 import { Column, Player } from "../../types";
 import { columns } from "../tournament-table/column-config";
-import { SelectChangeEvent } from "@mui/material";
-import LevelFilter from "../level-filter";
 
 interface TournamentTableProps {
   players: Player[];
   suspects: Set<number>;
-  onFilterChange: (level: string) => void;
 }
 
 function renderCellContent(
@@ -46,12 +43,7 @@ function renderRow(player: Player, suspects: Set<number>) {
 export default function TournamentTable({
   players,
   suspects,
-  onFilterChange,
 }: TournamentTableProps) {
-  const handleFilterSelect = (event: SelectChangeEvent) => {
-    onFilterChange(event.target.value as string);
-  };
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="tournament-table" size="small">
@@ -64,9 +56,6 @@ export default function TournamentTable({
                 style={{ minWidth: column.minWidth }}
               >
                 {column.label}
-                {column.id === "level" && (
-                  <LevelFilter handleFilterSelect={handleFilterSelect} />
-                )}
               </TableCell>
             ))}
           </TableRow>

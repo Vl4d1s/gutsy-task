@@ -1,13 +1,23 @@
 import { Container, Typography, Box, Grid } from "@mui/material";
 // import "./App.css";
 import TournamentTable from "./components/tournament-table/tournament-table";
-import useTournamentData from "./hooks/useTournamentData";
+import useFetchPlayers from "./hooks/useFetchPlayers";
+import { useState } from "react";
+import Search from "./components/search";
+import Loader from "./components/loader";
 
 function App() {
-  const { players, suspects, loading, error, total, setLevel } =
-    useTournamentData(0, 100);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [levelFilter, setLevelFilter] = useState("");
 
-  if (loading) return <div>Loading...</div>;
+  const { players, suspects, error, isLoading, totalPlayers } = useFetchPlayers(
+    currentPage,
+    levelFilter,
+    searchTerm
+  );
+
+  if (isLoading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -18,13 +28,17 @@ function App() {
             <Typography variant="h2" component="h1" gutterBottom align="center">
               XT tournament - Final results
             </Typography>
+            <Typography variant="h5" component="h5" gutterBottom align="center">
+              Total Players: {totalPlayers}
+            </Typography>
           </Grid>
           <Grid item xs={12}>
-            <TournamentTable
-              players={players}
-              suspects={suspects}
-              onFilterChange={(level: string) => setLevel(level)}
+            <Search
+              searchTerm={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
+            <Box m={2} />
+            <TournamentTable players={players} suspects={suspects} />
           </Grid>
         </Grid>
       </Box>

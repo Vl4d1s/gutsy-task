@@ -3,6 +3,7 @@ export interface Player {
   name: string;
   level: "rookie" | "amateur" | "pro";
   score: number;
+  isSuspect?: boolean;
 }
 
 type ExtrasColumn = "status";
