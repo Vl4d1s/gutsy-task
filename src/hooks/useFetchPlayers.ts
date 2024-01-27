@@ -6,16 +6,16 @@ import { Player } from "../types";
 const API_BASE_URL = "/api/v1";
 
 const useFetchPlayers = (
-  currentPage: number,
-  levelFilter: string,
-  searchTerm: string
+  currentPage: number = 1,
+  levelFilter: string = "",
+  searchTerm: string = "",
+  pageSize: number = 10
 ) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [totalPlayers, setTotalPlayers] = useState<number>(0);
   const [suspects, setSuspects] = useState<Set<number>>(new Set());
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const pageSize = 10;
 
   const fetchPlayers = useCallback(async () => {
     setIsLoading(true);

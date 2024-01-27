@@ -2,9 +2,10 @@ import { Container, Typography, Box, Grid } from "@mui/material";
 // import "./App.css";
 import TournamentTable from "./components/tournament-table/tournament-table";
 import useFetchPlayers from "./hooks/useFetchPlayers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "./components/search";
 import Loader from "./components/loader";
+import Pagination from "./components/pagination";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +17,17 @@ function App() {
     levelFilter,
     searchTerm
   );
+
+  const pageSize = 10;
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(totalPlayers / pageSize));
+  }, [totalPlayers, pageSize]);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
@@ -42,6 +54,12 @@ function App() {
               players={players}
               handleFilterSelect={(e) => setLevelFilter(e.target.value)}
               levelFilter={levelFilter}
+            />
+            <Box m={2} />
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={handlePageChange}
             />
           </Grid>
         </Grid>
