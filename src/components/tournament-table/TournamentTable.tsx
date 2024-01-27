@@ -8,8 +8,8 @@ import Paper from "@mui/material/Paper";
 import { SelectChangeEvent } from "@mui/material";
 
 import { Column, LevelFilterValue, Player } from "../../types";
-import { columns } from "../tournament-table/column-config";
-import LevelFilter from "./level-filter";
+import { columns } from "./column-config";
+import LevelFilter from "./LevelFilter";
 
 function renderCellContent(column: Column, player: Player) {
   return column.transform

@@ -1,12 +1,12 @@
 import { Container, Typography, Box, Grid } from "@mui/material";
 import { useState } from "react";
 
-import TournamentTable from "./components/tournament-table/tournament-table";
+import TournamentTable from "./components/tournament-table/TournamentTable";
 import useFetchPlayers from "./hooks/useFetchPlayers";
-import Search from "./components/tournament-table/search";
-import Loader from "./components/shared/loader";
-import Pagination from "./components/tournament-table/pagination";
-import ErrorComponent from "./components/shared/error-message";
+import Search from "./components/tournament-table/Search";
+import Loader from "./components/shared/Loader";
+import Pagination from "./components/tournament-table/Pagination";
+import ErrorComponent from "./components/shared/ErrorMessage";
 import { LevelFilterValue } from "./types";
 
 function App() {
@@ -35,14 +35,18 @@ function App() {
           <Grid item xs={12}>
             <Search
               searchTerm={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                currentPage !== 1 && setCurrentPage(1);
+              }}
             />
             <Box m={2} />
             <TournamentTable
               players={players}
-              handleFilterSelect={(e) =>
-                setLevelFilter(e.target.value as LevelFilterValue)
-              }
+              handleFilterSelect={(e) => {
+                setLevelFilter(e.target.value as LevelFilterValue);
+                currentPage !== 1 && setCurrentPage(1);
+              }}
               levelFilter={levelFilter}
             />
             <Box m={2} />
