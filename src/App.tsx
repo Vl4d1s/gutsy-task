@@ -11,7 +11,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
 
-  const { players, suspects, error, isLoading, totalPlayers } = useFetchPlayers(
+  const { players, error, isLoading, totalPlayers } = useFetchPlayers(
     currentPage,
     levelFilter,
     searchTerm
@@ -40,7 +40,6 @@ function App() {
             <Box m={2} />
             <TournamentTable
               players={players}
-              suspects={suspects}
               handleFilterSelect={(e) => setLevelFilter(e.target.value)}
               levelFilter={levelFilter}
             />

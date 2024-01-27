@@ -5,19 +5,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Box, SelectChangeEvent } from "@mui/material";
+import { SelectChangeEvent } from "@mui/material";
 
 import { Column, Player } from "../../types";
 import { columns } from "../tournament-table/column-config";
 import LevelFilter from "../level-filter";
 
-function renderCellContent(
-  column: Column,
-  player: Player,
-  suspects: Set<number>
-) {
+function renderCellContent(column: Column, player: Player) {
   if (column.id === "status") {
-    return suspects.has(player.id) ? "Suspect" : "OK";
+    return player.isSuspect ? "Suspect" : "OK";
   }
 
   return column.transform
@@ -25,12 +21,12 @@ function renderCellContent(
     : player[column.id as keyof Player];
 }
 
-function renderRow(player: Player, suspects: Set<number>) {
+function renderRow(player: Player) {
   return (
     <TableRow key={player.id}>
       {columns.map((column) => (
         <TableCell key={column.id}>
-          {renderCellContent(column, player, suspects)}
+          {renderCellContent(column, player)}
         </TableCell>
       ))}
     </TableRow>
@@ -39,17 +35,17 @@ function renderRow(player: Player, suspects: Set<number>) {
 
 interface TournamentTableProps {
   players: Player[];
-  suspects: Set<number>;
   levelFilter: string;
   handleFilterSelect: (event: SelectChangeEvent) => void;
 }
 
 export default function TournamentTable({
   players,
-  suspects,
   levelFilter,
   handleFilterSelect,
 }: TournamentTableProps) {
+  const renderedRows = players.map((player) => renderRow(player));
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="tournament-table" size="small">
@@ -75,9 +71,7 @@ export default function TournamentTable({
             ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {players.map((player) => renderRow(player, suspects))}
-        </TableBody>
+        <TableBody>{renderedRows}</TableBody>
       </Table>
     </TableContainer>
   );
