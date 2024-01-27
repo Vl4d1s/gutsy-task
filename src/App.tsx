@@ -42,6 +42,7 @@ function App() {
               players={players}
               suspects={suspects}
               handleFilterSelect={(e) => setLevelFilter(e.target.value)}
+              levelFilter={levelFilter}
             />
           </Grid>
         </Grid>

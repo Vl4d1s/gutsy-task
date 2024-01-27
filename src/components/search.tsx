@@ -10,7 +10,7 @@ const Search = ({ searchTerm, onChange }: SearchProps) => {
     <TextField
       size="small"
       variant="outlined"
-      label="Search..."
+      label="Search players by name, ID, level, or score."
       value={searchTerm}
       onChange={onChange}
     />

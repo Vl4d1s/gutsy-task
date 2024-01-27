@@ -15,6 +15,7 @@ export const columns: Column[] = [
   {
     id: "level",
     label: "Level",
+    minWidth: 200,
   },
   {
     id: "score",

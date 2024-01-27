@@ -6,9 +6,11 @@ export const theme = createTheme({
       styleOverrides: {
         head: {
           fontWeight: "bold",
+          fontSize: "1rem",
           backgroundColor: "#3f51b5",
           color: "white",
           textAlign: "center",
+          height: "50px",
         },
         body: {
           textAlign: "center",
@@ -30,10 +32,31 @@ export const theme = createTheme({
         },
       },
     },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          minWidth: "650px",
+        },
+      },
+    },
     MuiTypography: {
       styleOverrides: {
         root: {
           color: "#3f51b5",
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          width: "40%",
         },
       },
     },
