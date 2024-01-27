@@ -9,12 +9,13 @@ export interface TournamentData {
   loading: boolean;
   error: string | null;
   total: number;
+  setLevel: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const useTournamentData = (
   start: number,
   n: number,
-  level?: string,
+  initialLevel?: string,
   search?: string
 ): TournamentData => {
   const [players, setPlayers] = useState<Player[]>([]);
@@ -22,6 +23,7 @@ const useTournamentData = (
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [total, setTotal] = useState<number>(0);
+  const [level, setLevel] = useState<string | undefined>(initialLevel);
 
   // Ref to track the initial fetch for suspects
   const initialFetchCompleted = useRef<boolean>(false);
@@ -74,7 +76,7 @@ const useTournamentData = (
     fetchPlayers().catch((err) => setError((err as Error).message));
   }, [start, n, level, search]);
 
-  return { players, suspects, loading, error, total };
+  return { players, suspects, loading, error, total, setLevel };
 };
 
 export default useTournamentData;
