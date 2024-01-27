@@ -31,6 +31,7 @@ const Pagination = ({
       <Button
         variant="contained"
         size="small"
+        color="secondary"
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
       >
@@ -39,6 +40,7 @@ const Pagination = ({
       <Button
         variant="contained"
         size="small"
+        color="secondary"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -58,6 +60,7 @@ const Pagination = ({
       <Button
         variant="contained"
         size="small"
+        color="secondary"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
@@ -66,6 +69,7 @@ const Pagination = ({
       <Button
         variant="contained"
         size="small"
+        color="secondary"
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}
       >
