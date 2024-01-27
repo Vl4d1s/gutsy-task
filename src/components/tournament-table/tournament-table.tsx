@@ -9,7 +9,7 @@ import { SelectChangeEvent } from "@mui/material";
 
 import { Column, Player } from "../../types";
 import { columns } from "../tournament-table/column-config";
-import LevelFilter from "../level-filter";
+import LevelFilter from "./level-filter";
 
 function renderCellContent(column: Column, player: Player) {
   return column.transform

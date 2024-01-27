@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { Player } from "../types";
@@ -16,6 +16,13 @@ const useFetchPlayers = (
   const [suspects, setSuspects] = useState<Set<number>>(new Set());
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const isInitialRender = useRef(true);
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(totalPlayers / pageSize));
+  }, [totalPlayers, pageSize]);
 
   const fetchPlayers = useCallback(async () => {
     setIsLoading(true);
@@ -66,8 +73,11 @@ const useFetchPlayers = (
   );
 
   useEffect(() => {
-    fetchSuspects();
-  }, [fetchSuspects]);
+    if (isInitialRender.current) {
+      fetchSuspects();
+      isInitialRender.current = false;
+    }
+  }, []);
 
   useEffect(() => {
     debouncedFetchPlayers();
@@ -82,6 +92,7 @@ const useFetchPlayers = (
     suspects,
     isLoading,
     error,
+    totalPages,
   };
 };
 

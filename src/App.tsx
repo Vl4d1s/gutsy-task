@@ -1,36 +1,25 @@
 import { Container, Typography, Box, Grid } from "@mui/material";
-// import "./App.css";
+import { useState } from "react";
+
 import TournamentTable from "./components/tournament-table/tournament-table";
 import useFetchPlayers from "./hooks/useFetchPlayers";
-import { useEffect, useState } from "react";
-import Search from "./components/search";
-import Loader from "./components/loader";
-import Pagination from "./components/pagination";
+import Search from "./components/tournament-table/search";
+import Loader from "./components/shared/loader";
+import Pagination from "./components/tournament-table/pagination";
+import ErrorComponent from "./components/shared/error-message";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [levelFilter, setLevelFilter] = useState("");
 
-  const { players, error, isLoading, totalPlayers } = useFetchPlayers(
-    currentPage,
-    levelFilter,
-    searchTerm
-  );
+  console.log("App");
 
-  const pageSize = 10;
-  const [totalPages, setTotalPages] = useState(0);
-
-  useEffect(() => {
-    setTotalPages(Math.ceil(totalPlayers / pageSize));
-  }, [totalPlayers, pageSize]);
-
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+  const { players, error, isLoading, totalPlayers, totalPages } =
+    useFetchPlayers(currentPage, levelFilter, searchTerm);
 
   if (isLoading) return <Loader />;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <ErrorComponent message={error} />;
 
   return (
     <Container maxWidth="lg">
@@ -59,7 +48,9 @@ function App() {
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}
-              onPageChange={handlePageChange}
+              onPageChange={(pageNumber: number) => {
+                setCurrentPage(pageNumber);
+              }}
             />
           </Grid>
         </Grid>
