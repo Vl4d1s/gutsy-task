@@ -46,7 +46,7 @@ export default function TournamentTable({
 }: TournamentTableProps) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="tournament-table">
+      <Table sx={{ minWidth: 650 }} aria-label="tournament-table" size="small">
         <TableHead>
           <TableRow>
             {columns.map(({ id, align, minWidth, label }) => (
