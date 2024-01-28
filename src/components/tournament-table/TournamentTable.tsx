@@ -1,10 +1,10 @@
 import Table from "@mui/material/Table";
 import Paper from "@mui/material/Paper";
+import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { SelectChangeEvent } from "@mui/material";
+import { Chip, SelectChangeEvent } from "@mui/material";
 import TableContainer from "@mui/material/TableContainer";
 
 import LevelFilter from "./LevelFilter";
@@ -23,6 +23,14 @@ export default function TournamentTable({
   handleFilterSelect,
 }: TournamentTableProps) {
   function renderCellContent(column: Column, player: Player) {
+    if (column.id === "status") {
+      if (player.status === "ok") {
+        return <Chip label="trustworthy" color="success" size="small" />;
+      } else if (player.status === "suspect") {
+        return <Chip label="suspect" color="warning" size="small" />;
+      }
+    }
+
     return column.transform
       ? column.transform(player[column.id as keyof Player])
       : player[column.id as keyof Player];
