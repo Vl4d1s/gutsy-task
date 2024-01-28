@@ -12,7 +12,7 @@ const Search = ({ searchTerm, onChange, onClear }: SearchProps) => {
     <TextField
       size="small"
       variant="outlined"
-      label="Search players by name, ID, level, or score."
+      label="Search by name, ID, level, or score."
       value={searchTerm}
       onChange={onChange}
       InputProps={{
