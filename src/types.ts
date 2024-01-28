@@ -6,7 +6,7 @@ export interface Player {
   status: string;
 }
 
-export type LevelFilterValue = Player["level"] | "all" | "";
+export type LevelFilterValue = Player["level"] | "all-levels" | "";
 
 export interface TournamentData {
   players: Player[];

@@ -8,15 +8,15 @@ interface LevelFilterProps {
 }
 
 const LevelFilter = ({ onChange, levelFilter }: LevelFilterProps) => {
-  const levels: LevelFilterValue[] = ["all", "rookie", "amateur", "pro"];
+  const levels: LevelFilterValue[] = ["all-levels", "rookie", "amateur", "pro"];
 
   return (
     <Select
       label="Filter by Level"
       onChange={onChange}
-      defaultValue="all"
+      defaultValue="all-levels"
       size="small"
-      value={!levelFilter ? "all" : levelFilter}
+      value={!levelFilter ? "all-levels" : levelFilter}
     >
       {levels.map((level) => (
         <MenuItem key={level} value={level}>

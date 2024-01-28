@@ -33,7 +33,7 @@ const useFetchPlayers = (
       const params = new URLSearchParams({
         start: ((currentPage - 1) * pageSize).toString(),
         n: pageSize.toString(),
-        level: levelFilter === "all" ? "" : levelFilter,
+        level: levelFilter === "all-levels" ? "" : levelFilter,
         search: searchTerm.toLowerCase(),
       });
 

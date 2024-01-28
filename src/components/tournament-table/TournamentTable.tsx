@@ -11,24 +11,6 @@ import { Column, LevelFilterValue, Player } from "../../types";
 import { columns } from "./column-config";
 import LevelFilter from "./LevelFilter";
 
-function renderCellContent(column: Column, player: Player) {
-  return column.transform
-    ? column.transform(player[column.id as keyof Player])
-    : player[column.id as keyof Player];
-}
-
-function renderRow(player: Player) {
-  return (
-    <TableRow key={player.id}>
-      {columns.map((column) => (
-        <TableCell key={column.id}>
-          {renderCellContent(column, player)}
-        </TableCell>
-      ))}
-    </TableRow>
-  );
-}
-
 interface TournamentTableProps {
   players: Player[];
   levelFilter: LevelFilterValue;
@@ -40,6 +22,24 @@ export default function TournamentTable({
   levelFilter,
   handleFilterSelect,
 }: TournamentTableProps) {
+  function renderCellContent(column: Column, player: Player) {
+    return column.transform
+      ? column.transform(player[column.id as keyof Player])
+      : player[column.id as keyof Player];
+  }
+
+  function renderRow(player: Player) {
+    return (
+      <TableRow key={player.id}>
+        {columns.map((column) => (
+          <TableCell key={column.id}>
+            {renderCellContent(column, player)}
+          </TableCell>
+        ))}
+      </TableRow>
+    );
+  }
+
   const renderedRows = players.map((player) => renderRow(player));
 
   return (
