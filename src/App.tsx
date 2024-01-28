@@ -1,13 +1,19 @@
-import { Container, Typography, Box, Grid } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useState } from "react";
 
-import TournamentTable from "./components/tournament-table/TournamentTable";
+import { LevelFilterValue } from "./types";
+import Loader from "./components/shared/Loader";
 import useFetchPlayers from "./hooks/useFetchPlayers";
 import Search from "./components/tournament-table/Search";
-import Loader from "./components/shared/Loader";
-import Pagination from "./components/tournament-table/Pagination";
 import ErrorComponent from "./components/shared/ErrorMessage";
-import { LevelFilterValue } from "./types";
+import Pagination from "./components/tournament-table/Pagination";
+import TournamentTable from "./components/tournament-table/TournamentTable";
 
 function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,6 +22,25 @@ function App() {
 
   const { players, error, isLoading, totalPlayers, totalPages } =
     useFetchPlayers(currentPage, levelFilter, searchTerm);
+
+  const handleSearchChange = (e: SelectChangeEvent) => {
+    setSearchTerm(e.target.value);
+    currentPage !== 1 && setCurrentPage(1);
+  };
+
+  const handleSearchClear = () => {
+    setSearchTerm("");
+    currentPage !== 1 && setCurrentPage(1);
+  };
+
+  const handleFilterSelect = (e: SelectChangeEvent) => {
+    setLevelFilter(e.target.value as LevelFilterValue);
+    currentPage !== 1 && setCurrentPage(1);
+  };
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   if (isLoading) return <Loader />;
   if (error) return <ErrorComponent message={error} />;
@@ -38,27 +63,20 @@ function App() {
           <Grid item xs={12}>
             <Search
               searchTerm={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                currentPage !== 1 && setCurrentPage(1);
-              }}
+              onChange={handleSearchChange}
+              onClear={handleSearchClear}
             />
             <Box m={2} />
             <TournamentTable
               players={players}
-              handleFilterSelect={(e) => {
-                setLevelFilter(e.target.value as LevelFilterValue);
-                currentPage !== 1 && setCurrentPage(1);
-              }}
+              handleFilterSelect={handleFilterSelect}
               levelFilter={levelFilter}
             />
             <Box m={2} />
             <Pagination
               totalPages={totalPages}
               currentPage={currentPage}
-              onPageChange={(pageNumber: number) => {
-                setCurrentPage(pageNumber);
-              }}
+              onPageChange={handlePageChange}
             />
           </Grid>
         </Grid>
