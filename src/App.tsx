@@ -1,13 +1,8 @@
-import {
-  Container,
-  Typography,
-  Box,
-  Grid,
-  SelectChangeEvent,
-} from "@mui/material";
+import { Container, Box, Grid, SelectChangeEvent } from "@mui/material";
 import { useState } from "react";
 
 import { LevelFilterValue } from "./types";
+import AppTitle from "./components/AppTitle";
 import Loader from "./components/shared/Loader";
 import useFetchPlayers from "./hooks/useFetchPlayers";
 import Search from "./components/tournament-table/Search";
@@ -50,15 +45,11 @@ function App() {
       <Box my={4}>
         <Grid container spacing={3}>
           <Grid item xs={12}>
-            <Typography variant="h2" component="h1" gutterBottom align="center">
-              XT tournament - Final results
-            </Typography>
-            <Typography variant="h5" component="h5" gutterBottom align="center">
-              Total Players: {totalPlayers} | Page{" "}
-              <strong>
-                {currentPage} of {totalPages}
-              </strong>{" "}
-            </Typography>
+            <AppTitle
+              totalPlayers={totalPlayers}
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
           </Grid>
           <Grid item xs={12}>
             <Search
